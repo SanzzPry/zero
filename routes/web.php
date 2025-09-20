@@ -7,8 +7,11 @@ use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\PelamarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\PerusahaanController;
+use App\Http\Controllers\SocialLinkController;
 use App\Http\Controllers\SuperAdminController;
+use App\Http\Controllers\TipsKerjaController;
 use App\Http\Controllers\UserController;
 use Symfony\Component\CssSelector\Node\FunctionNode;
 
@@ -41,10 +44,31 @@ Route::prefix('super-admin')->group(function () {
 
     Route::prefix('perusahaan')->group(function () {
         Route::get('/', [PerusahaanController::class, 'index'])->name('perusahaan.index');
+        Route::get('/create', [PerusahaanController::class, 'create'])->name('perusahaan.create');
     });
 
     Route::prefix('finance')->group(function () {
         Route::get('/', [FinanceController::class, 'index'])->name('finance.index');
+    });
+
+    Route::prefix('tips')->group(function () {
+        Route::get('/', [TipsKerjaController::class, 'index'])->name('tips.index');
+        Route::get('/create', [TipsKerjaController::class, 'create'])->name('tips.create');
+        Route::post('/store', [TipsKerjaController::class, 'store'])->name('tips.store');
+        Route::get('/show/{id}', [TipsKerjaController::class, 'show'])->name('tips.show');
+        Route::post('tips/delete-multiple', [TipsKerjaController::class, 'deleteMultiple'])->name('tips.deleteMultiple');
+    });
+
+    Route::prefix('event')->group(function () {
+        Route::get('/', [EventController::class, 'index'])->name('event.index');
+        Route::patch('/{event}/toggle-status', [EventController::class, 'toggleStatus'])->name('event.toggleStatus');
+        Route::get('/create', [EventController::class, 'create'])->name('event.create');
+        Route::post('/store', [EventController::class, 'store'])->name('event.store');
+        Route::get('/{id}', [EventController::class, 'show'])->name('event.show');
+        Route::get('/{id}/partisipan', [EventController::class, 'partisipan'])->name('event.partisipan');
+        Route::get('/edit/{id}', [EventController::class, 'edit'])->name('event.edit');
+        Route::put('/update/{event}', [EventController::class, 'update'])->name('event.update');
+        Route::delete('/destroy/{id}', [EventController::class, 'destroy'])->name('event.destroy');
     });
 
     Route::prefix('freeze')->group(function () {
@@ -65,6 +89,7 @@ Route::prefix('super-admin')->group(function () {
         Route::delete('/{id}', [UserController::class, 'destroy'])->name('akun.destroy');
     });
 
+    Route::resource('social', SocialLinkController::class);
     Route::get('/pengaturan', [UserController::class, 'pengaturanView'])->name('pengaturan.index');
     Route::put('/pengaturan/update', [UserController::class, 'pengaturanUpdate'])->name('pengaturan.update');
 });

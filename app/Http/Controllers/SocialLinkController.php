@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Perusahaan;
+use App\Models\SocialLink;
 use Illuminate\Http\Request;
 
-use function PHPUnit\Framework\returnCallback;
-
-class PerusahaanController extends Controller
+class SocialLinkController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('pages.super-admin.perusahaan.index');
+        return view('pages.super-admin.partials.social');
     }
 
     /**
@@ -22,7 +20,7 @@ class PerusahaanController extends Controller
      */
     public function create()
     {
-        return view('pages.super-admin.perusahaan.create');
+        //
     }
 
     /**
@@ -36,7 +34,7 @@ class PerusahaanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Perusahaan $perusahaan)
+    public function show(SocialLink $socialLink)
     {
         //
     }
@@ -44,7 +42,7 @@ class PerusahaanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Perusahaan $perusahaan)
+    public function edit(SocialLink $socialLink)
     {
         //
     }
@@ -52,7 +50,7 @@ class PerusahaanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Perusahaan $perusahaan)
+    public function update(Request $request, SocialLink $socialLink)
     {
         //
     }
@@ -60,7 +58,7 @@ class PerusahaanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Perusahaan $perusahaan)
+    public function destroy(SocialLink $socialLink)
     {
         //
     }

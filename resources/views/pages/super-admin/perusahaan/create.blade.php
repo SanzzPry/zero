@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-@section('title', 'Tambah Kandidat')
+@section('title', 'Tambah Perusahaan')
 
 @section('content')
     <div class="px-13 py-2">

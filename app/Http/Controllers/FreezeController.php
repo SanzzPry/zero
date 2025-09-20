@@ -27,8 +27,7 @@ class FreezeController extends Controller
 
         if ($request->has('search') && $request->search != '') {
             $query->where('username', 'like', '%' . $request->search . '%')
-                ->orWhere('email', 'like', '%' . $request->search . '%')
-                ->orWhere('address_detail', 'like', '%' . $request->search . '%');
+                ->orWhere('email', 'like', '%' . $request->search . '%');
         }
 
         $users = $query->get();
