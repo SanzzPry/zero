@@ -15,6 +15,18 @@ class SuperAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $user = $request->user();
+
+        // Belum login
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        // Cek role
+        if ($user->role !== 'superadmin') {
+            abort(403, 'Akses ditolak — halaman ini hanya untuk SuperAdmin.');
+        }
+
         return $next($request);
     }
 }

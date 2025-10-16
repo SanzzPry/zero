@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Freeze;
+use App\Models\Pelamar;
 use Illuminate\Http\Request;
 use App\Services\User\UserService;
 
@@ -14,28 +15,26 @@ class FreezeController extends Controller
      */
 
 
-    protected $userService;
-
-    public function __construct(UserService $userService)
-    {
-        $this->userService = $userService;
-    }
-
     public function index(Request $request)
     {
-        $query = User::query();
+        $query = Pelamar::query();
 
-        if ($request->has('search') && $request->search != '') {
-            $query->where('username', 'like', '%' . $request->search . '%')
-                ->orWhere('email', 'like', '%' . $request->search . '%');
+        // Search berdasarroutean nama atau username
+        if ($request->filled('search')) {
+            $query->where('nama_pelamar', 'like', '%' . $request->search . '%')
+                ->orWhere('kategori', 'like', '%' . $request->search . '%');
         }
 
-        $users = $query->get();
-        $user = $this->userService->getAllUser();
+        // Bisa tambahin filter status kandidat juga kalau mau
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
 
+        $pelamars = $query->get();
 
-        return view('pages.super-admin.freeze.index', compact('users'));
+        return view('pages.super-admin.freeze.index', compact('pelamars'));
     }
+
 
 
     /**
@@ -59,14 +58,36 @@ class FreezeController extends Controller
      */
     public function show($id)
     {
-        $user = $this->userService->getUserById($id);
+        $user = Pelamar::with(['skills', 'riwayatPendidikans'])->findOrFail($id);
 
-
-        return view('pages.super-admin.freeze.banned', [
-            'user' => $user,
-
-        ]);
+        return view('pages.super-admin.freeze.banned', compact('user'));
     }
+
+    public function toggle($id, Request $request)
+    {
+        $user = Pelamar::findOrFail($id);
+
+        if ($user->status == 'banned') {
+            // Unbanned
+            $user->status = 'unbanned';
+            $user->alasan_freeze = null; // reset alasan
+            $message = "Akun berhasil di-unbanned.";
+        } else {
+            // Banned
+            $user->status = 'banned';
+            $user->alasan_freeze = $request->alasan_freeze;
+            $message = "Akun berhasil di-banned.";
+        }
+
+        $user->save();
+
+        return redirect()->route('freeze.show', $user->id)->with('success', $message);
+    }
+
+
+
+
+
 
     /**
      * Show the form for editing the specified resource.

@@ -20,7 +20,7 @@
                         <div class="mt-1">
                             <label
                                 class="cursor-pointer inline-flex items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-md shadow">
-                                <input type="file" name="img_profile" class="hidden">
+                                <input type="file" name="img_profile" class="hidden" onchange="previewImage(event)">
                                 Upload
                             </label>
                             <button type="submit" name="remove_photo" value="1"
@@ -138,5 +138,13 @@
         let oldProvinceId = "{{ $user->superAdmin->province_id ?? '' }}"
         let oldCityId = "{{ $user->superAdmin->city_id ?? '' }}"
         let oldDistrictId = "{{ $user->superAdmin->district_id ?? '' }}"
+
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                document.getElementById('profile-preview').src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
     </script>
 @endsection

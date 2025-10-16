@@ -17,13 +17,18 @@
                         <li class="px-3 pt-2 text-xs font-semibold uppercase tracking-wider text-white/80">Umum</li>
                         {{ $top }}
 
-                        <li class="px-3 pt-4 text-xs font-semibold uppercase tracking-wider text-white/80">Super Admin
+                        <li class="px-3 pt-4 text-xs font-semibold uppercase tracking-wider text-white/80">Finance
                         </li>
                         {{ $middle }}
 
-                        <li class="px-3 pt-4 text-xs font-semibold uppercase tracking-wider text-white/80">Manajemen
-                            Akun</li>
+                        @if (Auth::check() && Auth::user()->role === 'superadmin')
+                            <li class="px-3 pt-4 text-xs font-semibold uppercase tracking-wider text-white/80">Manajemen
+                                Akun</li>
+                            {{ $bottom }}
+                        @endif
+                        <li class="px-3 pt-4 mt-24 text-xs font-semibold uppercase tracking-wider text-white/80"></li>
                         {{ $bottom }}
+
 
                     </ul>
                 </div>

@@ -53,4 +53,12 @@ class User extends Authenticatable
     {
         return $this->hasOne(SuperAdmin::class);
     }
+    public function pelamar()
+    {
+        return $this->hasOne(Pelamar::class);
+    }
+    public function perusahaan()
+    {
+        return $this->hasOne(Perusahaan::class);
+    }
 }

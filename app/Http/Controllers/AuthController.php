@@ -20,15 +20,34 @@ class AuthController extends Controller
     }
     public function login(Request $request)
     {
+        // Validasi input
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
         $infologin = [
             'email' => $request->email,
             'password' => $request->password,
         ];
 
+        // Coba login
         if (Auth::attempt($infologin)) {
-            return redirect('super-admin/dashboard');
+            $request->session()->regenerate();
+
+            $user = Auth::user();
+
+            // 🔥 Redirect berdasarkan role
+            if ($user->role === 'superadmin') {
+                return redirect()->route('superAdmin.dashboard');
+            } elseif ($user->role === 'finance') {
+                return redirect()->route('finance.dashboard');
+            } else {
+                Auth::logout();
+                return redirect()->route('login')->with('error', 'Role tidak dikenali.');
+            }
         } else {
-            return redirect('auth/login');
+            return back()->with('error', 'Email atau password salah.');
         }
     }
     public function register(Request $request)

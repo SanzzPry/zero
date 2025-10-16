@@ -3,23 +3,23 @@
 
 @section('content')
     <div class="px-13 py-2">
-        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
-            @csrf @method('PUT')
+        <form action="{{ route('perusahaan.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf @method('POST')
 
             <div class="bg-white border rounded-xl px-18 py-6 mb-18">
-                <h2 class="text-xl font-bold mb-5">Edit Kandidat</h2>
+                <h2 class="text-xl font-bold mb-5">Tambah Perusahaan</h2>
 
                 <!-- Header Profile -->
                 <div class="flex items-center mb-8">
                     <img id="profile-preview"
-                        src="{{ old('photo') ? asset('storage/' . old('photo')) : 'https://ui-avatars.com/api/?name=' . '&background=random' }}"
+                        src="{{ old('img_profile') ? asset('storage/' . old('img_profile')) : 'https://ui-avatars.com/api/?name=' . '&background=random' }}"
                         alt="Profile Photo"
                         class="w-24 h-24 rounded-full object-cover border-4 border-gray-200 shadow mb-3">
                     <div>
                         <div class="ml-8 mt-1 space-x-2">
                             <label
                                 class="cursor-pointer inline-flex items-center px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-md shadow">
-                                <input type="file" name="photo" class="hidden">
+                                <input type="file" name="img_profile" class="hidden" onchange="previewImage(event)">
                                 Upload
                             </label>
                             <button type="submit" name="remove_photo" value="1"
@@ -32,12 +32,7 @@
 
                 <div class="space-y-4">
 
-                    <!-- User ID -->
-                    <div>
-                        <label class="block text-sm font-bold">User ID <span class="text-red-500">*</span></label>
-                        <input type="text" name="user_id" placeholder="User ID"
-                            class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-orange-500 focus:border-orange-500">
-                    </div>
+
 
                     <!-- Email -->
                     <div>
@@ -53,12 +48,6 @@
                             class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-orange-500 focus:border-orange-500">
                     </div>
 
-                    <!-- Nama Lengkap -->
-                    <div>
-                        <label class="block text-sm font-bold">Nama Lengkap <span class="text-red-500">*</span></label>
-                        <input type="text" name="full_name" placeholder="Nama Lengkap"
-                            class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-orange-500 focus:border-orange-500">
-                    </div>
 
                     <!-- Kata Sandi -->
                     <div>
@@ -67,99 +56,69 @@
                             class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-orange-500 focus:border-orange-500">
                     </div>
 
-                    <!-- Gender -->
+                    <h1 class="font-bold text-xl">Data Perusahaan</h1>
+
                     <div>
-                        <label class="block text-sm font-bold">Gender <span class="text-red-500">*</span></label>
-                        <div class="flex gap-4 mt-1">
-                            <label class="flex items-center">
-                                <input type="radio" name="gender" value="Laki-Laki" class="mr-2"> Laki-Laki
-                            </label>
-                            <label class="flex items-center">
-                                <input type="radio" name="gender" value="Perempuan" class="mr-2"> Perempuan
-                            </label>
-                        </div>
+                        <label class="block text-sm font-bold">Nama Perusahaan <span class="text-red-500">*</span></label>
+                        <input type="text" name="namaPerusahaan" placeholder="Nama Perusahaan"
+                            class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-orange-500 focus:border-orange-500">
                     </div>
 
-                    <!-- Alamat -->
                     <div>
-                        <label class="block text-sm font-bold">Alamat <span class="text-red-500">*</span></label>
-                        <textarea name="alamat" placeholder="Alamat"
-                            class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-orange-500 focus:border-orange-500"></textarea>
+                        <label class="block text-sm font-bold">legalitas <span class="text-red-500">*</span></label>
+                        <input type="text" name="legalitas" placeholder="legalitas"
+                            class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-orange-500 focus:border-orange-500">
                     </div>
+
+                    <div>
+                        <label class="block text-sm font-bold">
+                            Deskripsi Perusahaan <span class="text-red-500">*</span>
+                        </label>
+                        <textarea name="deskripsi" placeholder="Deskripsi Perusahaan"
+                            class="mt-1 block w-full h-40 rounded-md border border-gray-300 px-3 py-2 focus:ring-orange-500 focus:border-orange-500"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold">
+                            Visi <span class="text-red-500">*</span>
+                        </label>
+                        <textarea name="visi" placeholder="Visi"
+                            class="mt-1 block w-full h-40 rounded-md border border-gray-300 px-3 py-2 focus:ring-orange-500 focus:border-orange-500"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold">
+                            Misi <span class="text-red-500">*</span>
+                        </label>
+                        <textarea name="misi" placeholder="Misi"
+                            class="mt-1 block w-full h-40 rounded-md border border-gray-300 px-3 py-2 focus:ring-orange-500 focus:border-orange-500"></textarea>
+                    </div>
+
+                    <h1 class="font-bold text-xl">Nomor Telepon</h1>
+
 
                     <!-- No. Telepon -->
                     <div>
-                        <label class="block text-sm font-bold">No. Telepon <span class="text-red-500">*</span></label>
-                        <input type="text" name="phone" placeholder="No. Telepon"
+                        <label class="block text-sm font-bold">No. Perusahaan <span class="text-red-500">*</span></label>
+                        <input type="text" name="teleponPerusahaan" placeholder="No. Perusahaan"
                             class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-orange-500 focus:border-orange-500">
                     </div>
 
-                    <!-- Pendidikan -->
-                    <div class="space-y-1">
-                        <label class="block text-sm font-bold">Pendidikan <span class="text-red-500">*</span></label>
-                        <button type="button"
-                            class="w-full flex justify-between items-center bg-orange-500 text-white px-4 py-2 rounded-md shadow">
-                            Tambahkan Pendidikan
-                            <span class="text-xl font-bold">+</span>
-                        </button>
-                    </div>
-
-                    <!-- Organisasi -->
-                    <div class="space-y-1">
-                        <label class="block text-sm font-bold">Organisasi <span class="text-red-500">*</span></label>
-                        <button type="button"
-                            class="w-full flex justify-between items-center bg-orange-500 text-white px-4 py-2 rounded-md shadow">
-                            Tambahkan Organisasi
-                            <span class="text-xl font-bold">+</span>
-                        </button>
-                    </div>
-
-                    <!-- Pengalaman -->
-                    <div class="space-y-1">
-                        <label class="block text-sm font-bold">Pengalaman <span class="text-red-500">*</span></label>
-                        <button type="button"
-                            class="w-full flex justify-between items-center bg-orange-500 text-white px-4 py-2 rounded-md shadow">
-                            Tambahkan Pengalaman Kerja
-                            <span class="text-xl font-bold">+</span>
-                        </button>
-                    </div>
-
-                    <!-- Skill -->
-                    <div class="space-y-1">
-                        <label class="block text-sm font-bold">Skill <span class="text-red-500">*</span></label>
-                        <button type="button"
-                            class="w-full flex justify-between items-center bg-orange-500 text-white px-4 py-2 rounded-md shadow">
-                            Tambahkan Skill
-                            <span class="text-xl font-bold">+</span>
-                        </button>
-                    </div>
-
-                    <!-- Social Media -->
-                    <h3 class="text-lg font-bold mt-6">Social Media</h3>
                     <div>
-                        <input type="text" name="instagram" placeholder="Instagram"
+                        <label class="block text-sm font-bold">No. Whatsapp <span class="text-red-500">*</span></label>
+                        <input type="text" name="whatsapp" placeholder="No. Whatsapp"
                             class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-orange-500 focus:border-orange-500">
                     </div>
-                    <div>
-                        <input type="text" name="linkedin" placeholder="LinkedIn"
-                            class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-orange-500 focus:border-orange-500">
-                    </div>
-                    <div>
-                        <input type="text" name="website" placeholder="Website"
-                            class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-orange-500 focus:border-orange-500">
-                    </div>
-                    <div>
-                        <input type="text" name="twitter" placeholder="Twitter"
-                            class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:ring-orange-500 focus:border-orange-500">
-                    </div>
+
+
 
                     <!-- Action Buttons -->
                     <div class="text-center p-2 flex justify-center gap-4">
                         <button type="submit"
                             class="px-8 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-md shadow">
-                            Upload
+                            Simpan
                         </button>
-                        <a href="{{ route('pelamar.index') }}"
+                        <a href="{{ route('perusahaan.index') }}"
                             class="px-8 py-2 bg-white border border-orange-500 text-orange-500 font-semibold rounded-md shadow hover:bg-orange-50">
                             Batal
                         </a>
@@ -168,4 +127,15 @@
             </div>
         </form>
     </div>
+
+    <script>
+        // Preview foto saat diganti
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                document.getElementById('profile-preview').src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
 @endsection

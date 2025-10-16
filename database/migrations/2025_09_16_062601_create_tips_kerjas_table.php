@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->mediumText('content');
-            $table->text('intro');
+            $table->text('intro')->nullable();
             $table->string('penulis');
             $table->string('image');
             $table->enum('status', [
                 'terbit',
                 'belum terbit',
             ]);
-            $table->json('section');
+            $table->json('section')->nullable();
             $table->timestamps();
         });
     }

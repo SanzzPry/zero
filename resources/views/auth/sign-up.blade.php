@@ -57,17 +57,37 @@
                     <input type="email" name="email" placeholder="E-mail" class="w-full border rounded-lg px-6 py-4">
                 </div>
                 {{-- <div>
-                        <label class="block text-sm font-medium pb-2">No. Tlp</label>
-                        <input type="number" name="no_tlp" placeholder="No. Tlp" class="w-full border rounded-lg px-6 py-4">
-                    </div> --}}
+                                            <label class="block text-sm font-medium pb-2">No. Tlp</label>
+                                            <input type="number" name="no_tlp" placeholder="No. Tlp" class="w-full border rounded-lg px-6 py-4">
+                                        </div> --}}
                 <div>
                     <label class="block text-sm font-medium pb-2">Kata Sandi</label>
                     <div class="relative">
-                        <input type="password" name="password" placeholder="Kata Sandi"
-                            class="w-full border rounded-lg px-6 py-4">
-                        <span class="absolute right-3 top-2.5 cursor-pointer">👁</span>
+                        <input id="password" type="password" name="password" placeholder="Kata Sandi"
+                            class="w-full border rounded-lg px-6 py-4 pr-12" aria-describedby="togglePassword" />
+
+                        <!-- Tombol toggle (position absolute) -->
+                        <button type="button" id="togglePassword"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                            aria-label="Tampilkan kata sandi" title="Tampilkan kata sandi">
+                            <!-- Eye (visible) -->
+                            <svg id="iconEye" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 block" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+
+                            <!-- Eye Off (hidden initially) -->
+                            <svg id="iconEyeOff" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 hidden" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a10.05 10.05 0 011.655-3.042M6.18 6.18A9.965 9.965 0 0112 5c4.477 0 8.268 2.943 9.542 7a9.956 9.956 0 01-1.091 2.31M3 3l18 18" />
+                            </svg>
+                        </button>
                     </div>
                 </div>
+
 
                 <!-- Checkbox -->
                 <div class="flex justify-center items-center mt-5 space-x-2">
@@ -87,11 +107,11 @@
 
         <!-- Bagian Kanan (Info) -->
         <div class="w-1/2 relative hidden md:flex items-center justify-center bg-cover bg-center"
-            style="background-image: url('/images/furin.jpg')">
+            style="background-image: url('/images/sign.jpg')">
             <div class="absolute inset-0 bg-black/50"></div>
             <div class="relative z-10 text-center text-white px-12">
                 <img src="/images/Logo-area_kerja-white.png" class="h-10 mx-auto mb-6">
-                <h1 class="text-5xl font-bold mb-6">Super Admin Area Kerja</h1>
+                <h1 class="text-5xl font-bold mb-6">Halo Pengguna Area Kerja</h1>
                 <p class="mb-16">untuk tetap terhubung dengan kami <br> silakan masuk dengan informasi pribadi Anda</p>
                 <a href="{{ route('auth.login')}}"
                     class="px-18 py-4 border border-white rounded-full hover:bg-white hover:text-black transition">
@@ -100,5 +120,31 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const passwordInput = document.getElementById('password');
+            const toggleBtn = document.getElementById('togglePassword');
+            const iconEye = document.getElementById('iconEye');
+            const iconEyeOff = document.getElementById('iconEyeOff');
+
+            toggleBtn.addEventListener('click', () => {
+                const isPassword = passwordInput.type === 'password';
+                passwordInput.type = isPassword ? 'text' : 'password';
+
+                // swap icons
+                if (isPassword) {
+                    iconEye.classList.add('hidden');
+                    iconEyeOff.classList.remove('hidden');
+                    toggleBtn.setAttribute('aria-label', 'Sembunyikan kata sandi');
+                    toggleBtn.title = 'Sembunyikan kata sandi';
+                } else {
+                    iconEye.classList.remove('hidden');
+                    iconEyeOff.classList.add('hidden');
+                    toggleBtn.setAttribute('aria-label', 'Tampilkan kata sandi');
+                    toggleBtn.title = 'Tampilkan kata sandi';
+                }
+            });
+        });
+    </script>
 
 @endsection
